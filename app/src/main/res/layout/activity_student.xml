@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewStudent"
+    android:background="@color/cardview_dark_background">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Stdreg_page"
+        android:text="REGISTER"
+        android:textColor="@color/white"
+        android:textSize="35dp"
+        android:textStyle="bold"
+        android:layout_margin="50dp"
+        android:gravity="center"
+        />
+
+    <EditText
+        android:id="@+id/std_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Stdreg_page"
+        android:hint="enter your email"
+        android:minHeight="48dp"
+        android:textColorHint="@color/white" />
+
+    <EditText
+        android:id="@+id/std_password"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/std_email"
+        android:hint="Enter your password"
+        android:minHeight="48dp"
+        android:textColorHint="@color/white" />
+
+    <EditText
+        android:id="@+id/stdFirst_name"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/std_password"
+        android:hint="Enter your first name"
+        android:minHeight="48dp"
+        android:textColorHint="@color/white" />
+
+    <EditText
+        android:id="@+id/stdlast_name"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/stdFirst_name"
+        android:hint="Enter your last name"
+        android:minHeight="48dp"
+        android:textColorHint="@color/white" />
+
+    <EditText
+        android:id="@+id/address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/stdlast_name"
+        android:hint="Enter your address"
+        android:minHeight="48dp"
+        android:textColorHint="@color/white" />
+    <EditText
+        android:id="@+id/card_number"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your card number"
+        android:textColorHint = "@color/white"
+        android:layout_below="@id/address"
+        />
+    <Button
+        android:id="@+id/stdReg_button"
+        android:layout_width="127dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/card_number"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+
+
+        android:text="REGISTER" />
+
+
+
+
+
+</RelativeLayout>
