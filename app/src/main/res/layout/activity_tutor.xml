@@ -1,104 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".tutor"
-    android:background="@color/cardview_dark_background">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tutreg_page"
-        android:text="REGISTER"
-        android:textColor="@color/white"
-        android:textSize="35dp"
-        android:textStyle="bold"
-        android:layout_margin="50dp"
-        android:gravity="center"
-        />
+    android:padding="16dp"
+    tools:context=".tutor">
 
     <EditText
-        android:id="@+id/tut_email"
+        android:id="@+id/etFirstName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tutreg_page"
-        android:hint="enter your email"
-        android:minHeight="48dp"
-        android:textColorHint="@color/white" />
+        android:hint="First Name" />
 
     <EditText
-        android:id="@+id/tut_password"
-
+        android:id="@+id/etLastName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tut_email"
-        android:hint="Enter your password"
-        android:minHeight="48dp"
-        android:textColorHint="@color/white" />
+        android:layout_below="@id/etFirstName"
+        android:layout_marginTop="8dp"
+        android:hint="Last Name" />
 
     <EditText
-        android:id="@+id/tutFirst_name"
-
+        android:id="@+id/etEducationLevel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tut_password"
-        android:hint="Enter your first name"
-        android:minHeight="48dp"
-        android:textColorHint="@color/white" />
+        android:layout_below="@id/etLastName"
+        android:layout_marginTop="8dp"
+        android:hint="Education Level" />
 
     <EditText
-        android:id="@+id/tutlast_name"
-
+        android:id="@+id/etEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tutFirst_name"
-        android:hint="Enter your last name"
-        android:minHeight="48dp"
-        android:textColorHint="@color/white" />
+        android:layout_below="@id/etEducationLevel"
+        android:layout_marginTop="8dp"
+        android:hint="Email" />
 
     <EditText
-        android:id="@+id/education"
+        android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tutlast_name"
-        android:hint="Enter your Education leve"
-        android:minHeight="48dp"
-        android:textColorHint="@color/white" />
+        android:layout_below="@id/etEmail"
+        android:layout_marginTop="8dp"
+        android:hint="Password"
+        android:inputType="textPassword" />
 
     <EditText
-        android:id="@+id/language"
-
+        android:id="@+id/etNativeLanguage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/education"
-        android:hint="Enter your Native Language"
-        android:minHeight="48dp"
-        android:textColorHint="@color/white" />
+        android:layout_below="@id/etPassword"
+        android:layout_marginTop="8dp"
+        android:hint="Native Language" />
 
     <EditText
-        android:id="@+id/about"
-
+        android:id="@+id/etDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/language"
-        android:hint="Who are you? (600) characters"
-        android:minHeight="48dp"
-        android:textColorHint="@color/white" />
+        android:layout_below="@id/etNativeLanguage"
+        android:layout_marginTop="8dp"
+        android:hint="Short Description of Yourself (600 Characters)" />
+
     <Button
-        android:id="@+id/tutReg_button"
-        android:layout_width="127dp"
-        android:layout_height="60dp"
-        android:layout_below="@id/about"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-
-
-        android:text="REGISTER" />
-
-
-
+        android:id="@+id/btnRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etDescription"
+        android:layout_marginTop="16dp"
+        android:text="Register" />
 
 </RelativeLayout>
