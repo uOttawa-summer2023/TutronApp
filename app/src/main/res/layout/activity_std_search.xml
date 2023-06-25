@@ -82,7 +82,7 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/button_sort"
+                android:id="@+id/button_find"
                 android:layout_width="138dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
