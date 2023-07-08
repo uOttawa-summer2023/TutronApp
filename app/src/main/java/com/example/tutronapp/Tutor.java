@@ -15,6 +15,15 @@ public class Tutor extends AppCompatActivity {
 
     private EditText etFirstName, etLastName, etEducationLevel, etEmail, etPassword, etNativeLanguage, etDescription;
     private Button btnRegister;
+    private DBHelper dbHelper;
+
+    //private boolean isActive,isDismiss,isSuspended;
+
+   /* public Tutor(boolean isActive,boolean isDismiss,boolean isSuspended){
+        this.isActive = isActive;
+        this.isDismiss = isDismiss;
+        this.isSuspended = isSuspended;
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +57,9 @@ public class Tutor extends AppCompatActivity {
                 } else if (description.length() >= 600) {
                     Toast.makeText(Tutor.this, "Description should not exceed 600 characters", Toast.LENGTH_SHORT).show();
                 } else {
+                    dbHelper = new DBHelper(Tutor.this);
+                    dbHelper.registerTutor(firstName,lastName,email,password,educationLevel,"tutor",nativeLanguage,description,"active");
+                    //add the information on database for login information
                     registerTutor(); // When all fields are filled in
                 }
             }
@@ -61,5 +73,23 @@ public class Tutor extends AppCompatActivity {
         Intent intent = new Intent(this, Welcome.class);
         intent.putExtra("role", "Tutor");
         startActivity(intent);
+    }
+    /*public boolean getIsActive(){
+        return isActive;
+    }
+    public boolean getDismiss(){
+        return isDismiss;
+    }
+    public boolean getIsSuspended(){
+        return isSuspended;
+    }*/
+    public void setActive(boolean status){
+
+    }
+    public void setDismiss(boolean status){
+
+    }
+    public void setSuspended(boolean status){
+
     }
 }
