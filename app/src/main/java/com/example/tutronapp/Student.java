@@ -3,11 +3,13 @@ package com.example.tutronapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.content.Context;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +17,7 @@ public class Student extends AppCompatActivity {
 
     private EditText etFirstName, etLastName, etEmail, etPassword, etAddress, etCardNumber;
     private Button btnRegister;
+    DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,8 @@ public class Student extends AppCompatActivity {
                         password.isEmpty() || address.isEmpty() || cardNumber.isEmpty()) {
                     Toast.makeText(Student.this, "Please fill in all the fields", Toast.LENGTH_SHORT).show();
                 } else {
+                    dbHelper = new DBHelper(Student.this);
+                    dbHelper.registerStudent(firstName,lastName,email,password,address,"student",cardNumber);
                     registerStudent(); // When all fields are filled in
                 }
             }

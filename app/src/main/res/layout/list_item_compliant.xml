@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -6,20 +7,21 @@
 
     <TextView
         android:id="@+id/studentName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="385dp"
+        android:layout_height="48dp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tutorName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="385dp"
+        android:layout_height="48dp"
+        android:layout_margin="10dp"
         android:textColor="#888" />
 
     <TextView
         android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="385dp"
+        android:layout_height="48dp" />
 
     <LinearLayout
         android:id="@+id/actionsLayout"
@@ -31,15 +33,15 @@
             android:id="@+id/dismissButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dismiss"
-            android:onClick="dismissComplaint" />
+            android:text="@string/dismiss"
+             />
 
         <Button
             android:id="@+id/suspendButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Suspend Tutor"
-            android:onClick="suspendTutor" />
+            android:text="@string/suspend_tutor"
+             />
 
     </LinearLayout>
 

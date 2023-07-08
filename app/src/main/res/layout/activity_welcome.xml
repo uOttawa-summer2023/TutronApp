@@ -22,5 +22,13 @@
         android:layout_below="@id/tvWelcome"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp" />
+    <Button
+        android:id="@+id/btnInbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="NEXT PAGE"
+        android:layout_below="@id/btnLogOff"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp" />
 
 </RelativeLayout>
