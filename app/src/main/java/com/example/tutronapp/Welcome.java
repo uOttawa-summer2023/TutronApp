@@ -40,17 +40,18 @@ public class Welcome extends AppCompatActivity {
         btnInbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(role.equals("admin")){
+                if(role.equals("Administrator")){
                     Log.d("hi", "hi");
                     inbox();
                     Log.d("hi", "hi");
-                } else if (role.equals("student")) {
+                } else if (role.equals("Student")) {
                     Log.d("hi", "hi");
                     stdDashBoard();
                     Log.d("hi", "hi");
                 }
                 else {
                     Log.d("hi", "hi");
+                    Toast.makeText(Welcome.this,role, Toast.LENGTH_SHORT).show();
                     tutorDashBoard();
                     Log.d("hi", "hi");
                 }
