@@ -1,171 +1,201 @@
 package com.example.tutronapp;
-
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
-
 
 public class Admin extends AppCompatActivity {
 
-    private ListView complaintsListView;
-    private List<Complaints> complaintsList;
-    private CustomAdapter adapter;
-    private DatabaseHelper databaseHelper;
-    private Button dismiss,suspend;
+    private static String adminEmail = "admin@example.com";
+    private static String adminPassword = "admin123";
+    private DBHandler dbHandler;
+    private ComplaintAdapter complaintAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
-        databaseHelper = new DatabaseHelper(this);
-        databaseHelper.addComplaint(new Complaints("John", "Kenyi", "Few lectures attended"));
-        databaseHelper.addComplaint(new Complaints("Alice", "Mohammad", "Late all the time"));
-        databaseHelper.addComplaint(new Complaints("Bob", "Dillon", "No explanation"));
 
-        complaintsListView = findViewById(R.id.inboxListView);
-        complaintsList = new ArrayList<>();
+        dbHandler = new DBHandler(this);
 
-       complaintsList = loadComplaints();
-        adapter = new CustomAdapter(complaintsList);
-        complaintsListView.setAdapter(adapter);
+        // Views
+        // EditText txtDeleteEmail = findViewById(R.id.txtDeleteEmail);
+        // Button btnDeleteTutor = findViewById(R.id.btnDeleteTutor);
+        Button btnLogout = findViewById(R.id.btnLogout);
 
+        EditText txtSuspendEmail = findViewById(R.id.txtSuspendEmail);
+        RadioGroup rgSuspensionType = findViewById(R.id.rgSuspensionType);
+        EditText txtSuspensionEndDate = findViewById(R.id.txtSuspensionEndDate);
+        Button btnSuspendTutor = findViewById(R.id.btnSuspendTutor);
+        Button btnDismissComplaint = findViewById(R.id.btnDismissComplaint);
+        EditText txtDismissComplaintId = findViewById(R.id.txtDismissComplaintId);
 
-       /*View includedLayout;
-        dismiss = includedLayout.findViewById(R.id.dismissButton);
-        suspend = includedLayout.findViewById(R.id.suspendButton);
-
-        dismiss.setOnClickListener(new View.OnClickListener() {
+        btnSuspendTutor.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {dismissComplaint(v);
+            public void onClick(View view) {
+                String email = txtSuspendEmail.getText().toString();
+                int selectedId = rgSuspensionType.getCheckedRadioButtonId();
+                boolean isTemporarySuspension = (selectedId == R.id.rbTemporarySuspension);
+                String suspensionEndDate = txtSuspensionEndDate.getText().toString().trim();
+
+                // Verify for an entry
+                if (email.isEmpty()) {
+                    Toast.makeText(Admin.this, "Email cannot be empty", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Tutor tutor = dbHandler.getTutorByEmail(email);
+                if (tutor == null) {
+                    Toast.makeText(Admin.this, "Tutor not found", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (isTemporarySuspension && suspensionEndDate.isEmpty()) {
+                    Toast.makeText(Admin.this, "Please provide the suspension end date", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Update tutor's suspension status and end date (if temporary suspension)
+                tutor.setSuspended(true);
+                tutor.setTemporarySuspended(isTemporarySuspension);
+                if (isTemporarySuspension) {
+                    tutor.setSuspensionEndDate(suspensionEndDate);
+                } else {
+                    tutor.setSuspensionEndDate(""); // Clear the suspension end date for permanent suspension
+                }
+                dbHandler.updateTutor(tutor);
+
+                txtSuspendEmail.setText("");
+                rgSuspensionType.clearCheck();
+                txtSuspensionEndDate.setText("");
+                txtSuspensionEndDate.setVisibility(isTemporarySuspension ? View.VISIBLE : View.GONE);
+
+                Toast.makeText(Admin.this, "Tutor Suspended Successfully", Toast.LENGTH_SHORT).show();
             }
         });
-        suspend.setOnClickListener(new View.OnClickListener() {
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {suspendTutor(v);
+            public void onClick(View view) {
+                // Perform logout action here, for example, go back to the login screen or clear session data.
+                // You can customize the logout behavior based on your application requirements.
+                // For now, I'll just show a toast message for demonstration purposes.
+                Toast.makeText(Admin.this, "Logged out as Admin", Toast.LENGTH_SHORT).show();
+                finish(); // Close the Admin activity and go back to the previous screen.
             }
-        });*/
+        });
 
+        // Display the list of complaints using RecyclerView
+        RecyclerView recyclerViewComplaints = findViewById(R.id.recyclerViewComplaints);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerViewComplaints.setLayoutManager(layoutManager);
 
-
-
-
-        // Insert each complaint into the database
-       // for (Complaints complaint : complaintsList) {
-            //databaseHelper.addComplaint(complaint);
-       // }
-
-
-
-
-        // Initialize the adapter with a list of complaint details();
-
-
-        //complaintsListView.setOnItemClickListener((parent, view, position, id) -> {
-            //complaintsList.remove(position);
-            //adapter.notifyDataSetChanged();
-            //Toast.makeText(Admin.this, "Complaint handled", Toast.LENGTH_SHORT).show();
-        //});
-    }
-   public void dismissComplaint(View view) {
-       Toast.makeText(this,view.getTag().toString(), Toast.LENGTH_SHORT).show();
-
-       int position = (int) view.getTag();
-
-
-        // Delete the item from the list
-        complaintsList.remove(position);
-
-        // Notify the adapter that the data set has changed
-        adapter.notifyDataSetChanged();
-
-    }
-
-    public void suspendTutor(View view) {
-        // Get the position of the clicked item in the ListView
-
-        int position = (int) view.getTag();
-
-        // Delete the item from the list
-        complaintsList.remove(position);
-
-        // Notify the adapter that the data set has changed
-        adapter.notifyDataSetChanged();
-        Toast.makeText(this, "Button Clicked", Toast.LENGTH_SHORT).show();
-    }
-    private class CustomAdapter extends BaseAdapter {
-        private List<Complaints> dataList;
-
-        public CustomAdapter(List<Complaints> dataList) {
-            this.dataList = dataList;
-        }
-
-        @Override
-        public int getCount() {
-            return dataList.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return dataList.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                LayoutInflater inflater = LayoutInflater.from(Admin.this);
-                convertView = inflater.inflate(R.layout.list_item_compliant, parent, false);
+        List<Complaint> complaints = dbHandler.getAllComplaints();
+        complaintAdapter = new ComplaintAdapter(complaints);
+        complaintAdapter.setOnComplaintActionListener(new ComplaintAdapter.OnComplaintActionListener() {
+            @Override
+            public void onDismiss(Complaint complaint) {
+                dismissComplaint(complaint);
             }
 
-            // Get the views within the item layout
-            TextView tutorName = convertView.findViewById(R.id.tutorName);
-            TextView studentName = convertView.findViewById(R.id.studentName);
-            TextView description = convertView.findViewById(R.id.description);
-            Button dismiss = convertView.findViewById(R.id.dismissButton);
-            dismiss.setTag(position);
-            Button suspend = convertView.findViewById(R.id.suspendButton);
-            suspend.setTag(position);
+            @Override
+            public void onSuspend(Complaint complaint) {
+                suspendTutor(complaint);
+            }
 
+            @Override
+            public void onComplaintClicked(Complaint complaint) {
+                // Handle click on a complaint (if needed)
+                // For now, we'll just show a Toast message for demonstration purposes
+                Toast.makeText(Admin.this, "Complaint Clicked: " + complaint.getDescription(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        recyclerViewComplaints.setAdapter(complaintAdapter);
 
-            // Bind the data to the views
-            Complaints complaint = dataList.get(position);
-            tutorName.setText(complaint.getTutorName());
-            studentName.setText(complaint.getStudentName());
-            description.setText(complaint.getDescription());
-            dismiss.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dismissComplaint(v);
+        // Set the listener to toggle the Suspension End Date visibility
+        rgSuspensionType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.rbTemporarySuspension) {
+                    // Show the Suspension End Date EditText when Temporary Suspension is selected
+                    txtSuspensionEndDate.setVisibility(View.VISIBLE);
+                } else {
+                    // Hide the Suspension End Date EditText when Permanent Suspension is selected
+                    txtSuspensionEndDate.setVisibility(View.GONE);
                 }
-            });
-            suspend.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    suspendTutor(v);
+            }
+        });
+
+        btnDismissComplaint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String complaintIdString = txtDismissComplaintId.getText().toString().trim();
+
+                // Verify for an entry
+                if (complaintIdString.isEmpty()) {
+                    Toast.makeText(Admin.this, "Complaint ID cannot be empty", Toast.LENGTH_SHORT).show();
+                    return;
                 }
-            });
 
-            return convertView;
-        }
+                // Parse the complaint ID to an integer
+                int complaintId;
+                try {
+                    complaintId = Integer.parseInt(complaintIdString);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(Admin.this, "Invalid Complaint ID", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
+                // Find the complaint by ID
+                Complaint complaint = dbHandler.getComplaintById(complaintId);
+                if (complaint == null) {
+                    Toast.makeText(Admin.this, "Complaint not found", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Dismiss the complaint
+                dismissComplaint(complaint);
+
+                // Clear the input field
+                txtDismissComplaintId.setText("");
+
+                Toast.makeText(Admin.this, "Complaint Dismissed Successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private List<Complaints> loadComplaints() {
-        return databaseHelper.getAllComplaints();
+
+
+
+    private void dismissComplaint(Complaint complaint) {
+        // Remove the complaint from the list and update the database
+        dbHandler.deleteComplaintById(complaint.getId());
+        complaintAdapter.removeComplaint(complaint);
+    }
+
+    private void suspendTutor(Complaint complaint) {
+        // Suspend the associated tutor and update the database
+        String associatedTutorEmail = complaint.getAssociatedTutor();
+        if (associatedTutorEmail != null) {
+            Tutor associatedTutor = dbHandler.getTutorByEmail(associatedTutorEmail);
+            if (associatedTutor != null) {
+                associatedTutor.isSuspended();
+                dbHandler.updateTutor(associatedTutor);
+                complaintAdapter.notifyDataSetChanged();
+                Toast.makeText(Admin.this, "Tutor Suspended Successfully", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public static boolean adminCredentials(String email, String password) {
+        return (adminEmail.equals(email) && adminPassword.equals(password));
     }
 }

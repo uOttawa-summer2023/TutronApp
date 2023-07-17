@@ -1,89 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".MainActivity">
+    tools:context=".TutronApp">
 
     <TextView
         android:id="@+id/tvAppTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tutron"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="24dp" />
+        android:text="TutronApp"
+        android:textSize="32sp"
+        android:layout_margin="16dp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="68dp"
+        tools:ignore="MissingConstraints" />
 
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Log In"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_below="@id/tvAppTitle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="24dp" />
-
-    <EditText
-        android:id="@+id/etEmail"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:layout_below="@id/tvTitle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
+        android:layout_margin="20dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAppTitle"
+        tools:layout_editor_absoluteX="16dp">
 
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:layout_below="@id/etEmail"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp" />
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textPersonName"
+            android:minHeight="48dp" />
 
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Log In"
-        android:layout_below="@id/etPassword"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:minHeight="48dp" />
 
-    <TextView
-        android:id="@+id/tvRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New user? Register here:"
-        android:layout_below="@id/btnLogin"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Login as:"
+            android:textSize="18sp"
+            />
 
-    <Button
-        android:id="@+id/btnRegisterStudent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvRegister"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="14dp"
-        android:text="Register as Student"
-        android:onClick="registerStudent" />
+        <RadioGroup
+            android:id="@+id/rgTypeAccount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btnRegisterTutor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Register as Tutor"
-        android:layout_below="@id/btnRegisterStudent"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:onClick="registerTutor" />
+            <RadioButton
+                android:id="@+id/selectStudent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Student"
+                android:checked="true"
+                android:textSize="16sp"
+                android:layout_marginRight="16dp" />
 
-</RelativeLayout>
+            <RadioButton
+                android:id="@+id/selectTutor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tutor"
+                android:textSize="16sp"
+                android:layout_marginRight="16dp" />
 
+            <RadioButton
+                android:id="@+id/selectAdmin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Admin"
+                android:textSize="16sp" />
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign in" />
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Register" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

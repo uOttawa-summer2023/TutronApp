@@ -1,14 +1,167 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".Admin">
+    android:padding="16dp">
 
-    <ListView
-        android:id="@+id/inboxListView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/list_item_compliant"/>
+    <!-- Logout Button (Top Right Corner) -->
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp" />
 
-</RelativeLayout>
+    <!-- Administrator Title -->
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Welcome Administrator"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- RecyclerView to display the list of complaints -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewComplaints"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtSuspendTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <!-- Suspend Tutor Section -->
+    <TextView
+        android:id="@+id/txtSuspendTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        android:text="Suspend Tutor"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewComplaints" />
+
+    <!-- EditText for Email -->
+    <EditText
+        android:id="@+id/txtSuspendEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Tutor Email"
+        android:inputType="textEmailAddress"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtSuspendTitle"
+        android:layout_marginTop="16dp" />
+
+    <RadioGroup
+        android:id="@+id/rgSuspensionType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/txtSuspendEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp">
+
+        <RadioButton
+            android:id="@+id/rbTemporarySuspension"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Temporary Suspension"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/rbPermanentSuspension"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Permanent Suspension" />
+    </RadioGroup>
+
+    <!-- EditText for Suspension End Date (Visible when Temporary Suspension is selected) -->
+    <EditText
+        android:id="@+id/txtSuspensionEndDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Suspension End Date (Format: yyyy-mm-dd)"
+        android:inputType="date"
+        android:visibility="visible"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rgSuspensionType"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/btnSuspendTutor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Suspend Tutor"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtSuspensionEndDate"
+        android:layout_marginTop="16dp" />
+
+    <!-- Dismiss Complaint Section -->
+    <TextView
+        android:id="@+id/txtDismissTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dismiss Complaint"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSuspendTutor"
+        android:layout_marginTop="32dp" />
+
+    <!-- EditText for Complaint ID -->
+    <EditText
+        android:id="@+id/txtDismissComplaintId"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Complaint ID"
+        android:inputType="number"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtDismissTitle"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/btnDismissComplaint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dismiss Complaint"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtDismissComplaintId"
+        android:layout_marginTop="16dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

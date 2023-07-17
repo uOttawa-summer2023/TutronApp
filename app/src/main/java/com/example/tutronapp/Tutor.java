@@ -1,95 +1,103 @@
 package com.example.tutronapp;
 
-import androidx.appcompat.app.AppCompatActivity;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+public class Tutor extends User implements Serializable {
 
-import androidx.appcompat.app.AppCompatActivity;
+    private boolean isSuspended;
+    private boolean isTemporarySuspended;
+    private String suspensionEndDate;
+    private String educationLevel;
+    private String nativeLanguage;
+    private String description;
 
-public class Tutor extends AppCompatActivity {
+    private List<TutorTopics> profileTopics;
+    private List<TutorTopics> offeredTopics;
 
-    private EditText etFirstName, etLastName, etEducationLevel, etEmail, etPassword, etNativeLanguage, etDescription;
-    private Button btnRegister;
-    private DBHelper dbHelper;
+    public Tutor(int ID, String email, String password, String firstName, String lastName,
+                 String educationLevel, String nativeLanguage, String description) {
+        super(ID, email, password, firstName, lastName);
+        this.educationLevel = educationLevel;
+        this.nativeLanguage = nativeLanguage;
+        this.description = description;
 
-    //private boolean isActive,isDismiss,isSuspended;
-
-   /* public Tutor(boolean isActive,boolean isDismiss,boolean isSuspended){
-        this.isActive = isActive;
-        this.isDismiss = isDismiss;
-        this.isSuspended = isSuspended;
-    }*/
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tutor);
-
-        etFirstName = findViewById(R.id.etFirstName);
-        etLastName = findViewById(R.id.etLastName);
-        etEducationLevel = findViewById(R.id.etEducationLevel);
-        etEmail = findViewById(R.id.etEmail);
-        etPassword = findViewById(R.id.etPassword);
-        etNativeLanguage = findViewById(R.id.etNativeLanguage);
-        etDescription = findViewById(R.id.etDescription);
-        btnRegister = findViewById(R.id.btnRegister);
-
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String firstName = etFirstName.getText().toString().trim();
-                String lastName = etLastName.getText().toString().trim();
-                String educationLevel = etEducationLevel.getText().toString().trim();
-                String email = etEmail.getText().toString().trim();
-                String password = etPassword.getText().toString().trim();
-                String nativeLanguage = etNativeLanguage.getText().toString().trim();
-                String description = etDescription.getText().toString().trim();
-
-                if (firstName.isEmpty() || lastName.isEmpty() || educationLevel.isEmpty() ||
-                        email.isEmpty() || password.isEmpty() || nativeLanguage.isEmpty() ||
-                        description.isEmpty()) {
-                    Toast.makeText(Tutor.this, "Please fill in all the fields", Toast.LENGTH_SHORT).show();
-                } else if (description.length() >= 600) {
-                    Toast.makeText(Tutor.this, "Description should not exceed 600 characters", Toast.LENGTH_SHORT).show();
-                } else {
-                    dbHelper = new DBHelper(Tutor.this);
-                    dbHelper.registerTutor(firstName,lastName,email,password,educationLevel,"tutor",nativeLanguage,description,"active");
-                    //add the information on database for login information
-                    registerTutor(); // When all fields are filled in
-                }
-            }
-        });
+        profileTopics = new ArrayList<>();
+        offeredTopics = new ArrayList<>();
     }
 
-    // Performs the registration for the tutor
-    private void registerTutor() {
-        Toast.makeText(Tutor.this, "Tutor registration successful!", Toast.LENGTH_SHORT).show();
+    public String getEducationLevel() {
+        return educationLevel;
+    }
 
-        Intent intent = new Intent(this, Welcome.class);
-        intent.putExtra("role", "Tutor");
-        startActivity(intent);
+    public void setEducationLevel(String educationLevel) {
+        this.educationLevel = educationLevel;
     }
-    /*public boolean getIsActive(){
-        return isActive;
+
+    public String getNativeLanguage() {
+        return nativeLanguage;
     }
-    public boolean getDismiss(){
-        return isDismiss;
+
+    public void setNativeLanguage(String nativeLanguage) {
+        this.nativeLanguage = nativeLanguage;
     }
-    public boolean getIsSuspended(){
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean isSuspended() {
         return isSuspended;
-    }*/
-    public void setActive(boolean status){
-
     }
-    public void setDismiss(boolean status){
 
+    public void setSuspended(boolean suspended) {
+        isSuspended = suspended;
     }
-    public void setSuspended(boolean status){
 
+    public boolean isTemporarySuspended() {
+        return isTemporarySuspended;
+    }
+
+    public void setTemporarySuspended(boolean temporarySuspended) {
+        isTemporarySuspended = temporarySuspended;
+    }
+
+    public String getSuspensionEndDate() {
+        return suspensionEndDate;
+    }
+
+    public void setSuspensionEndDate(String suspensionEndDate) {
+        this.suspensionEndDate = suspensionEndDate;
+    }
+
+    // Methods to add/remove topics to/from the profile and offered topics list
+
+    public void addTopicToProfile(TutorTopics topic) {
+        profileTopics.add(topic);
+    }
+
+    public void removeTopicFromProfile(TutorTopics topic) {
+        profileTopics.remove(topic);
+    }
+
+    public void addToOfferedTopics(TutorTopics topic) {
+        offeredTopics.add(topic);
+    }
+
+    public void removeFromOfferedTopics(TutorTopics topic) {
+        offeredTopics.remove(topic);
+    }
+
+    public List<TutorTopics> getProfileTopics() {
+        return profileTopics;
+    }
+
+    public List<TutorTopics> getOfferedTopics() {
+        return offeredTopics;
     }
 }
