@@ -8,7 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
+import java.util.List;
+import java.util.ArrayList;
 
 public class TutorWelcome extends AppCompatActivity {
 
@@ -17,6 +18,8 @@ public class TutorWelcome extends AppCompatActivity {
     Button btnLogOut;
 
     private Tutor tutor;
+
+    private List<TutorTopics> offeredTopicsList; // List to hold offered topics
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,18 @@ public class TutorWelcome extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_EDIT_PROFILE);
             }
         });
+
+        // Set up the Manage Topics button click listener
+        Button btnManageTopics = findViewById(R.id.btnManageTopics);
+        btnManageTopics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Navigate to TutorViewTopics activity
+                Intent intent = new Intent(TutorWelcome.this, TutorViewTopics.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     // Method to display the suspended message
@@ -138,34 +153,11 @@ public class TutorWelcome extends AppCompatActivity {
             }
         }
     }
+    private void showProfileTopics(Tutor tutor) {
+        List<TutorTopics> profileTopics = tutor.getProfileTopics();
 
-    /*@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == TutorProfileActivity.REQUEST_EDIT_PROFILE && resultCode == RESULT_OK && data != null) {
-            // Check if the data contains the updated tutor object
-            if (data.hasExtra("UPDATED_TUTOR")) {
-                // Get the updated tutor object from the intent
-                Tutor updatedTutor = (Tutor) data.getSerializableExtra("UPDATED_TUTOR");
-                Log.d("TUTOR_WELCOME", "Received updated tutor object: " + updatedTutor.toString());
-
-                if (tutor != null) {
-                    // Update the tutor object with the new data
-                    tutor.setEducationLevel(updatedTutor.getEducationLevel());
-                    tutor.setNativeLanguage(updatedTutor.getNativeLanguage());
-                    tutor.setDescription(updatedTutor.getDescription());
-
-                    // Update the UI with the new data
-                    printEducationLevel.setText("Education Level: " + tutor.getEducationLevel());
-                    printNativeLanguage.setText("Native Language: " + tutor.getNativeLanguage());
-                    printDescription.setText("Description: " + tutor.getDescription());
-
-                    Log.d("TUTOR_WELCOME", "UI updated with new tutor data.");
-                }
-            }
-        }*/
-
-
+        // Update the UI to display the list of topics in the profile.
+        // You can use RecyclerView or any other layout structure to show the topics.
+    }
 
 }
