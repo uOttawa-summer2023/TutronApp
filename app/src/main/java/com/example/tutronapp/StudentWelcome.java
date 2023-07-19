@@ -43,6 +43,18 @@ public class StudentWelcome extends AppCompatActivity {
                 logout();
             }
         });
+
+        /*// Set up the View Lessons button click listener
+        Button btnViewLessons = findViewById(R.id.btnViewTopics);
+        btnViewLessons.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Navigate to StudentViewLessons activity
+                Intent intent = new Intent(StudentWelcome.this, StudentViewLessons.class);
+                intent.putExtra("STUDENT", student); // Pass the student object to the view lessons activity
+                startActivityForResult(intent, REQUEST_VIEW_TOPICS);
+            }
+        });*/
     }
     private void logout() {
         // Perform any necessary log out actions (e.g., clear user session, reset data, etc.)
@@ -52,32 +64,6 @@ public class StudentWelcome extends AppCompatActivity {
         startActivity(intent);
         finish(); // Finish this activity to prevent user from coming back via back button
     }
-        /*
-        viewAllCourses.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openAllCoursesScreen(student);
-            }
-        });
 
-        viewMyCourses.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openYourCoursesScreen(student);
-            }
-        });
-    }
-
-    public void openAllCoursesScreen(Student student) {
-        Intent intent = new Intent(StudentWelcome.this, StudentViewAllCourses.class);
-        intent.putExtra("STUDENT", student);
-        startActivity(intent);
-    }
-
-    public void openYourCoursesScreen(Student student) {
-        Intent intent = new Intent(StudentWelcome.this, StudentViewMyCourses.class);
-        intent.putExtra("STUDENT", student);
-        startActivity(intent);
-    }*/
 }
 
