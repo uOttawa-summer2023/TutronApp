@@ -50,6 +50,28 @@ public class TutorProfileActivity extends AppCompatActivity {
                 saveChanges();
             }
         });
+
+        // Set up the Save Changes button click listener
+        btnSaveChanges.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Save changes to the tutor's profile
+                saveChanges();
+            }
+        });
+
+        /*// Set up the Manage Topics button click listener
+        Button btnManageTopics = findViewById(R.id.btnManageTopics);
+        btnManageTopics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Navigate to TutorViewTopics activity
+                Intent intent = new Intent(TutorProfileActivity.this, TutorViewTopics.class);
+                intent.putExtra("TUTOR", tutor); // Pass the tutor object to the TutorViewTopics activity
+                startActivityForResult(intent, REQUEST_VIEW_TOPICS);
+            }
+        });*/
+
     }
 
     private void saveChanges() {

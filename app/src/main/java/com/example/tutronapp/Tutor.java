@@ -75,7 +75,7 @@ public class Tutor extends User implements Serializable {
         this.suspensionEndDate = suspensionEndDate;
     }
 
-    // Methods to add/remove topics to/from the profile and offered topics list
+    // Methods to add, remove, and offer topics
 
     public void addTopicToProfile(TutorTopics topic) {
         profileTopics.add(topic);
@@ -93,11 +93,54 @@ public class Tutor extends User implements Serializable {
         offeredTopics.remove(topic);
     }
 
+    public boolean isTopicOffered(TutorTopics topic) {
+        return offeredTopics.contains(topic);
+    }
+
+    // Method to check if a topic exists in the tutor's profile topics
+    public boolean isTopicInProfile(TutorTopics topic) {
+        return profileTopics.contains(topic);
+    }
+
+    public int getNumOfferedTopics() {
+        return offeredTopics.size();
+    }
+
     public List<TutorTopics> getProfileTopics() {
         return profileTopics;
     }
 
     public List<TutorTopics> getOfferedTopics() {
         return offeredTopics;
+    }
+
+    // Additional methods to check if the maximum limits are reached
+
+    public boolean canOfferMoreTopics() {
+        return offeredTopics.size() < 5;
+    }
+
+    public boolean canAddMoreTopics() {
+        return profileTopics.size() + offeredTopics.size() < 20;
+    }
+
+    // Methods to find topics in profile and offered topics
+
+    public TutorTopics findTopicInProfile(String topicName) {
+        for (TutorTopics topic : profileTopics) {
+            if (topic.getTopicName().equalsIgnoreCase(topicName)) {
+                return topic;
+            }
+        }
+        return null;
+    }
+
+    public TutorTopics findTopicInOfferedTopics(String topicName) {
+        for (TutorTopics topic : offeredTopics) {
+            if (topic.getTopicName().equalsIgnoreCase(topicName)) {
+                return topic;
+            }
+        }
+        return null;
     }
 }

@@ -52,6 +52,8 @@
 
         <activity android:name=".TutorViewTopics" />
 
+        <activity android:name=".TutorManageTopics" />
+
 
         <!--<activity
             android:name=".AccountList"

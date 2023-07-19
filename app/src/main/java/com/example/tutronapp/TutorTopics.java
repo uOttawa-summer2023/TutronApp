@@ -47,4 +47,9 @@ public class TutorTopics implements Serializable {
     public void setBriefDescription(String briefDescription) {
         this.briefDescription = briefDescription;
     }
+
+    @Override
+    public String toString() {
+        return topicName;
+    }
 }

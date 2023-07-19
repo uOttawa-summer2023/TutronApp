@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/etTopicName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Topic Name" />
+
+    <EditText
+        android:id="@+id/etYearsOfExperience"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Years of Experience"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/etBriefDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Brief Description" />
+
+    <Button
+        android:id="@+id/btnAddToProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:text="Add to Profile" />
+
+    <Button
+        android:id="@+id/btnAddToOfferedTopics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:text="Add to Offered Topics" />
+
+    <Button
+        android:id="@+id/btnRemoveFromProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:text="Remove from Profile" />
+
+    <Button
+        android:id="@+id/btnRemoveFromOfferedTopics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:text="Remove from Offered Topics" />
+
+</LinearLayout>

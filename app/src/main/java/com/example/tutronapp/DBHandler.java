@@ -38,6 +38,13 @@ public class DBHandler extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    private static final String TABLE_TOPICS = "topics";
+    private static final String COLUMN_TOPIC_ID = "topic_id";
+    private static final String COLUMN_TUTOR_EMAIL = "tutor_email";
+    private static final String COLUMN_TOPIC_NAME = "topic_name";
+    private static final String COLUMN_YEARS_OF_EXPERIENCE = "years_of_experience";
+    private static final String COLUMN_TOPIC_DESCRIPTION = "description";
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Create the Students table
@@ -76,6 +83,16 @@ public class DBHandler extends SQLiteOpenHelper {
                 + COLUMN_IS_SUSPENDED + " INTEGER DEFAULT 0"
                 + ")";
         db.execSQL(CREATE_COMPLAINTS_TABLE);
+
+        // Create the Topics table
+        String CREATE_TOPICS_TABLE = "CREATE TABLE " + TABLE_TOPICS + "("
+                + COLUMN_TOPIC_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_TUTOR_EMAIL + " TEXT,"
+                + COLUMN_TOPIC_NAME + " TEXT,"
+                + COLUMN_YEARS_OF_EXPERIENCE + " INTEGER,"
+                + COLUMN_TOPIC_DESCRIPTION + " TEXT"
+                + ")";
+        db.execSQL(CREATE_TOPICS_TABLE);
     }
 
     @Override
@@ -336,6 +353,49 @@ public class DBHandler extends SQLiteOpenHelper {
         }
 
         return complaint;
+    }
+
+    // Add a new TutorTopics record to the database
+    public void addTutorTopic(String tutorEmail, String topicName, int yearsOfExperience, String description) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_TUTOR_EMAIL, tutorEmail);
+        values.put(COLUMN_TOPIC_NAME, topicName);
+        values.put(COLUMN_YEARS_OF_EXPERIENCE, yearsOfExperience);
+        values.put(COLUMN_TOPIC_DESCRIPTION, description);
+        db.insert(TABLE_TOPICS, null, values);
+        db.close();
+    }
+
+    // Get all TutorTopics for a specific tutor from the database
+    public List<TutorTopics> getTutorTopics(String tutorEmail) {
+        List<TutorTopics> topics = new ArrayList<>();
+        String selectQuery = "SELECT * FROM " + TABLE_TOPICS + " WHERE " + COLUMN_TUTOR_EMAIL + "=?";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, new String[]{tutorEmail});
+
+        if (cursor.moveToFirst()) {
+            do {
+                int topicId = cursor.getInt(cursor.getColumnIndex(COLUMN_TOPIC_ID));
+                String topicName = cursor.getString(cursor.getColumnIndex(COLUMN_TOPIC_NAME));
+                int yearsOfExperience = cursor.getInt(cursor.getColumnIndex(COLUMN_YEARS_OF_EXPERIENCE));
+                String description = cursor.getString(cursor.getColumnIndex(COLUMN_TOPIC_DESCRIPTION));
+
+                TutorTopics topic = new TutorTopics(topicName, yearsOfExperience, description);
+                topics.add(topic);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return topics;
+    }
+
+    // Delete a TutorTopics record from the database
+    public boolean deleteTutorTopic(int topicId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete(TABLE_TOPICS, COLUMN_TOPIC_ID + "=?", new String[]{String.valueOf(topicId)});
+        db.close();
+        return result != 0;
     }
 
 }

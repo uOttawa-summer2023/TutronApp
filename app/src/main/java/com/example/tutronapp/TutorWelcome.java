@@ -1,21 +1,22 @@
 package com.example.tutronapp;
 
-import static com.example.tutronapp.TutorProfileActivity.REQUEST_EDIT_PROFILE;
-
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import java.util.List;
-import java.util.ArrayList;
 
 public class TutorWelcome extends AppCompatActivity {
 
     TextView printID, printEmail, printFirstName, printLastName, printEducationLevel, printNativeLanguage, printDescription;
     TextView txtTutorSuspensionStatus, txtTutorSuspensionEndDate; // TextView to display suspended message
     Button btnLogOut;
+
+    private static final int REQUEST_EDIT_PROFILE = 1;
 
     private Tutor tutor;
 
@@ -40,7 +41,105 @@ public class TutorWelcome extends AppCompatActivity {
         // Get user data
         Tutor tutor = (Tutor) getIntent().getSerializableExtra("TUTOR");
 
-        // Display data
+        // Check if the tutor is suspended and show the appropriate message
+        if (tutor.isSuspended()) {
+            showSuspendedMessage(tutor);
+        } else {
+            // If the tutor is not suspended, display the tutor's details and enable actions
+            displayTutorDetails(tutor);
+
+            // Set up the Log Out button
+            btnLogOut = findViewById(R.id.btnLogOut);
+            btnLogOut.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Perform log out action here (e.g., clear user session, navigate back to login)
+                    logout();
+                }
+            });
+
+            // Set up the Edit Profile button click listener
+            Button btnEditProfile = findViewById(R.id.btnEditProfile);
+            btnEditProfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Navigate to TutorProfileActivity for editing the tutor's profile
+                    Intent intent = new Intent(TutorWelcome.this, TutorProfileActivity.class);
+                    intent.putExtra("TUTOR", tutor); // Pass the tutor object to the profile activity
+                    startActivityForResult(intent, REQUEST_EDIT_PROFILE);
+                }
+            });
+
+            // Set up the View Topics button click listener
+            Button btnViewTopics = findViewById(R.id.btnViewTopics);
+            btnViewTopics.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Navigate to TutorViewTopics activity
+                    Intent intent = new Intent(TutorWelcome.this, TutorViewTopics.class);
+                    intent.putExtra("TUTOR", tutor); // Pass the tutor object to the view topics activity
+                    startActivity(intent);
+                }
+            });
+        }
+    }
+
+    private void showSuspendedMessage(Tutor tutor) {
+        // Hide all other views and only show the suspension message
+        findViewById(R.id.textView7).setVisibility(View.GONE);
+        findViewById(R.id.printID).setVisibility(View.GONE);
+        findViewById(R.id.printEmail).setVisibility(View.GONE);
+        findViewById(R.id.printFirstName).setVisibility(View.GONE);
+        findViewById(R.id.printLastName).setVisibility(View.GONE);
+        findViewById(R.id.printEducationLevel).setVisibility(View.GONE);
+        findViewById(R.id.printNativeLanguage).setVisibility(View.GONE);
+        findViewById(R.id.printDescription).setVisibility(View.GONE);
+        findViewById(R.id.btnLogOut).setVisibility(View.GONE);
+        findViewById(R.id.btnEditProfile).setVisibility(View.GONE);
+        findViewById(R.id.btnViewTopics).setVisibility(View.GONE);
+
+        // Display the suspension message
+        TextView txtTutorSuspensionStatus = findViewById(R.id.txtTutorSuspensionStatus);
+        TextView txtTutorSuspensionEndDate = findViewById(R.id.txtTutorSuspensionEndDate);
+
+        if (tutor.isTemporarySuspended()) {
+            // Formulate the temporary suspension message
+            String suspensionMessage = "Your account is temporarily suspended until " + tutor.getSuspensionEndDate() + ".";
+            txtTutorSuspensionEndDate.setText(suspensionMessage);
+            txtTutorSuspensionEndDate.setVisibility(View.VISIBLE);
+        } else {
+            // For permanent suspension
+            String suspensionMessage = "Your account has been permanently suspended.\nYou can no longer use the application.";
+            txtTutorSuspensionStatus.setText(suspensionMessage);
+            txtTutorSuspensionStatus.setVisibility(View.VISIBLE);
+        }
+
+        // Set up the Log Out button
+        Button btnLogOut = findViewById(R.id.btnLogOut);
+        btnLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Perform log out action here (e.g., clear user session, navigate back to login)
+                logout();
+            }
+        });
+    }
+
+    private void displayTutorDetails(Tutor tutor) {
+        // Display tutor details and enable actions
+        findViewById(R.id.textView7).setVisibility(View.VISIBLE);
+        findViewById(R.id.printID).setVisibility(View.VISIBLE);
+        findViewById(R.id.printEmail).setVisibility(View.VISIBLE);
+        findViewById(R.id.printFirstName).setVisibility(View.VISIBLE);
+        findViewById(R.id.printLastName).setVisibility(View.VISIBLE);
+        findViewById(R.id.printEducationLevel).setVisibility(View.VISIBLE);
+        findViewById(R.id.printNativeLanguage).setVisibility(View.VISIBLE);
+        findViewById(R.id.printDescription).setVisibility(View.VISIBLE);
+        findViewById(R.id.btnLogOut).setVisibility(View.VISIBLE);
+        findViewById(R.id.btnEditProfile).setVisibility(View.VISIBLE);
+        findViewById(R.id.btnViewTopics).setVisibility(View.VISIBLE);
+
+        // Display tutor's details
         printID.setText("Account ID: " + tutor.getID());
         printEmail.setText("Email: " + tutor.getEmail());
         printFirstName.setText("First name: " + tutor.getFirstName());
@@ -49,13 +148,8 @@ public class TutorWelcome extends AppCompatActivity {
         printNativeLanguage.setText("Native Language: " + tutor.getNativeLanguage());
         printDescription.setText("Description: " + tutor.getDescription());
 
-        // Check if the tutor is suspended and show the appropriate message
-        if (tutor.isSuspended()) {
-            showSuspendedMessage(tutor);
-        }
-
         // Set up the Log Out button
-        btnLogOut = findViewById(R.id.btnLogOut);
+        Button btnLogOut = findViewById(R.id.btnLogOut);
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,50 +170,21 @@ public class TutorWelcome extends AppCompatActivity {
             }
         });
 
-        // Set up the Manage Topics button click listener
-        Button btnManageTopics = findViewById(R.id.btnManageTopics);
-        btnManageTopics.setOnClickListener(new View.OnClickListener() {
+        // Set up the View Topics button click listener
+        Button btnViewTopics = findViewById(R.id.btnViewTopics);
+        btnViewTopics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Navigate to TutorViewTopics activity
                 Intent intent = new Intent(TutorWelcome.this, TutorViewTopics.class);
+                intent.putExtra("TUTOR", tutor); // Pass the tutor object to the view topics activity
                 startActivity(intent);
             }
         });
-
-    }
-
-    // Method to display the suspended message
-    // Method to display the suspended message
-    private void showSuspendedMessage(Tutor tutor) {
-        // Check if the suspension is temporary or permanent
-        if (tutor.isSuspended()) {
-            // Get the suspension end date from the tutor object
-            String suspensionEndDate = tutor.getSuspensionEndDate();
-
-            if (tutor.isTemporarySuspended()) {
-                // Formulate the temporary suspension message
-                String suspensionMessage = "Your account is temporarily suspended until " + suspensionEndDate + ".";
-                txtTutorSuspensionEndDate.setText(suspensionMessage);
-                txtTutorSuspensionEndDate.setVisibility(View.VISIBLE);
-                txtTutorSuspensionStatus.setVisibility(View.GONE);
-            } else {
-                // For permanent suspension
-                String suspensionMessage = "Your account has been permanently suspended.\nYou can no longer use the application.";
-                txtTutorSuspensionStatus.setText(suspensionMessage);
-                txtTutorSuspensionStatus.setVisibility(View.VISIBLE);
-                txtTutorSuspensionEndDate.setVisibility(View.GONE);
-            }
-        } else {
-            // If not suspended, hide both suspended message TextViews
-            txtTutorSuspensionStatus.setVisibility(View.GONE);
-            txtTutorSuspensionEndDate.setVisibility(View.GONE);
-        }
     }
 
     private void logout() {
         // Perform any necessary log out actions (e.g., clear user session, reset data, etc.)
-
         Intent intent = new Intent(TutorWelcome.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -130,7 +195,7 @@ public class TutorWelcome extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == TutorProfileActivity.REQUEST_EDIT_PROFILE && resultCode == RESULT_OK && data != null) {
+        if (requestCode == REQUEST_EDIT_PROFILE && resultCode == RESULT_OK && data != null) {
             // Check if the data contains the updated tutor object
             if (data.hasExtra("UPDATED_TUTOR")) {
                 // Get the updated tutor object from the intent
@@ -153,11 +218,4 @@ public class TutorWelcome extends AppCompatActivity {
             }
         }
     }
-    private void showProfileTopics(Tutor tutor) {
-        List<TutorTopics> profileTopics = tutor.getProfileTopics();
-
-        // Update the UI to display the list of topics in the profile.
-        // You can use RecyclerView or any other layout structure to show the topics.
-    }
-
 }

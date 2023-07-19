@@ -21,7 +21,7 @@ public class ComplaintList extends AppCompatActivity {
 
         dbHandler = new DBHandler(this);
 
-        // Display the list of complaints using RecyclerView
+        // Display the list of complaints
         RecyclerView recyclerViewComplaints = findViewById(R.id.recyclerViewComplaints);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerViewComplaints.setLayoutManager(layoutManager);
@@ -44,7 +44,7 @@ public class ComplaintList extends AppCompatActivity {
         // For example, you can update the suspension status in the database
         // and update the complaint in the complaints list in the adapter
         boolean isSuspended = !complaint.isSuspended();
-        String suspensionEndDate = ""; // You need to set the suspension end date here (if applicable)
+        String suspensionEndDate = ""; // need to set the suspension end date here (if applicable)
         dbHandler.updateComplaintStatus(complaint.getId(), isSuspended, true, suspensionEndDate);
         complaint.setSuspended(isSuspended);
         complaint.setTemporarySuspension(true);
